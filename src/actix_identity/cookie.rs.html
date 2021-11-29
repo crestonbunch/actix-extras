@@ -1,7 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-identity/src/cookie.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>cookie.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
-<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../actix_identity/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
-                <a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `actix-identity&#x2F;src&#x2F;cookie.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>cookie.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css"disabled><link rel="stylesheet" type="text/css" href="../../dark.css"disabled><link rel="stylesheet" type="text/css" href="../../light.css"id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../actix_identity/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -823,13 +821,7 @@
 <span id="820">820</span>
 <span id="821">821</span>
 <span id="822">822</span>
-<span id="823">823</span>
-<span id="824">824</span>
-<span id="825">825</span>
-<span id="826">826</span>
-<span id="827">827</span>
-</pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">rc::Rc</span>, <span class="ident">time::SystemTime</span>};
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">rc::Rc</span>, <span class="ident">time::SystemTime</span>};
 
 <span class="kw">use</span> <span class="ident">futures_util::future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -843,7 +835,7 @@
     <span class="ident">HttpMessage</span>,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::IdentityPolicy</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::IdentityPolicy</span>;
 
 <span class="kw">struct</span> <span class="ident">CookieIdentityInner</span> {
     <span class="ident">key</span>: <span class="ident">Key</span>,
@@ -876,7 +868,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">CookieIdentityInner</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityInner</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">CookieIdentityInner</span> {
         <span class="kw">let</span> <span class="ident">key_v2</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> [<span class="ident">key</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]].<span class="ident">concat</span>();
 
         <span class="ident">CookieIdentityInner</span> {
@@ -896,20 +888,21 @@
 
     <span class="kw">fn</span> <span class="ident">set_cookie</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">resp</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+        <span class="ident">resp</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
         <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CookieValue</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">add_cookie</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">is_some</span>();
-        <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">legacy_supported</span>() {
-                <span class="ident">serde_json::to_string</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>)
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">val</span>.<span class="ident">identity</span>)
-            }
-        });
+        <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">value</span>
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">val</span><span class="op">|</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">legacy_supported</span>() {
+                    <span class="ident">serde_json::to_string</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>)
+                } <span class="kw">else</span> {
+                    <span class="prelude-val">Ok</span>(<span class="ident">val</span>.<span class="ident">identity</span>)
+                }
+            })
+            .<span class="ident">transpose</span>()<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cookie</span> <span class="op">=</span>
-            <span class="ident">Cookie::new</span>(<span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">val</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">String::new</span>()))<span class="question-mark">?</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cookie</span> <span class="op">=</span> <span class="ident">Cookie::new</span>(<span class="self">self</span>.<span class="ident">name</span>.<span class="ident">clone</span>(), <span class="ident">val</span>.<span class="ident">unwrap_or_default</span>());
         <span class="ident">cookie</span>.<span class="ident">set_path</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="ident">clone</span>());
         <span class="ident">cookie</span>.<span class="ident">set_secure</span>(<span class="self">self</span>.<span class="ident">secure</span>);
         <span class="ident">cookie</span>.<span class="ident">set_http_only</span>(<span class="bool-val">true</span>);
@@ -939,10 +932,10 @@
         };
 
         <span class="kw">if</span> <span class="ident">add_cookie</span> {
-            <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>).<span class="ident">add</span>(<span class="ident">cookie</span>);
+            <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="ident">key</span>).<span class="ident">add</span>(<span class="ident">cookie</span>);
         } <span class="kw">else</span> {
             <span class="ident">jar</span>.<span class="ident">add_original</span>(<span class="ident">cookie</span>.<span class="ident">clone</span>());
-            <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>).<span class="ident">remove</span>(<span class="ident">cookie</span>);
+            <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="ident">key</span>).<span class="ident">remove</span>(<span class="ident">cookie</span>);
         }
 
         <span class="kw">for</span> <span class="ident">cookie</span> <span class="kw">in</span> <span class="ident">jar</span>.<span class="ident">delta</span>() {
@@ -953,29 +946,31 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="ident">ServiceRequest</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CookieValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="ident">ServiceRequest</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CookieValue</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">cookie</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">cookie</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">jar</span> <span class="op">=</span> <span class="ident">CookieJar::new</span>();
         <span class="ident">jar</span>.<span class="ident">add_original</span>(<span class="ident">cookie</span>.<span class="ident">clone</span>());
 
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">legacy_supported</span>() {
-            <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key</span>).<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">CookieValue</span> {
-                <span class="ident">identity</span>: <span class="ident">n</span>.<span class="ident">value</span>().<span class="ident">to_string</span>(),
-                <span class="ident">login_timestamp</span>: <span class="prelude-val">None</span>,
-                <span class="ident">visit_timestamp</span>: <span class="prelude-val">None</span>,
-            })
+            <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key</span>)
+                .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>)
+                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">CookieValue</span> {
+                    <span class="ident">identity</span>: <span class="ident">n</span>.<span class="ident">value</span>().<span class="ident">to_string</span>(),
+                    <span class="ident">login_timestamp</span>: <span class="prelude-val">None</span>,
+                    <span class="ident">visit_timestamp</span>: <span class="prelude-val">None</span>,
+                })
         } <span class="kw">else</span> {
             <span class="prelude-val">None</span>
         };
 
         <span class="ident">res</span>.<span class="ident">or_else</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key_v2</span>)
+            <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">key_v2</span>)
                 .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>)
                 .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">parse</span>(<span class="ident">c</span>))
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">cookie</span>: <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CookieValue</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">cookie</span>: <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CookieValue</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">value</span>: <span class="ident">CookieValue</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>(<span class="ident">cookie</span>.<span class="ident">value</span>()).<span class="ident">ok</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">SystemTime::now</span>();
 
@@ -998,15 +993,15 @@
         <span class="prelude-val">Some</span>(<span class="ident">value</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">legacy_supported</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">legacy_supported</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">visit_deadline</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">login_deadline</span>.<span class="ident">is_none</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">always_update_cookie</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">always_update_cookie</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">visit_deadline</span>.<span class="ident">is_some</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">requires_oob_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">requires_oob_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">login_deadline</span>.<span class="ident">is_some</span>()
     }
 }
@@ -1043,49 +1038,49 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">/// Panics if `key` is less than 32 bytes in length..</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">key</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="ident">CookieIdentityPolicy</span>(<span class="ident">Rc::new</span>(<span class="ident">CookieIdentityInner::new</span>(<span class="ident">key</span>)))
     }
 
     <span class="doccomment">/// Sets the name of issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">name</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">into</span>();
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets the `Path` attribute of issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">path</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">into</span>();
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets the `Domain` attribute of issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">domain</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">domain</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">domain</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>());
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets the `Secure` attribute of issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">secure</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">secure</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">bool</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">secure</span> <span class="op">=</span> <span class="ident">value</span>;
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets the `Max-Age` attribute of issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_age</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_age</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="ident">Duration</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">max_age</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>);
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Sets the `Max-Age` attribute of issued cookies with given number of seconds.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_age_secs</span>(<span class="self">self</span>, <span class="ident">seconds</span>: <span class="ident">i64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_age_secs</span>(<span class="self">self</span>, <span class="ident">seconds</span>: <span class="ident">i64</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">max_age</span>(<span class="ident">Duration::seconds</span>(<span class="ident">seconds</span>))
     }
 
     <span class="doccomment">/// Sets the `HttpOnly` attribute of issued cookies.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, the `HttpOnly` attribute is omitted from issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">http_only</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">http_only</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">http_only</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">http_only</span>: <span class="ident">bool</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">http_only</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">http_only</span>);
         <span class="self">self</span>
     }
@@ -1093,7 +1088,7 @@
     <span class="doccomment">/// Sets the `SameSite` attribute of issued cookies.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, the `SameSite` attribute is omitted from issued cookies.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_site</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">same_site</span>: <span class="ident">SameSite</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_site</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">same_site</span>: <span class="ident">SameSite</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">same_site</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">same_site</span>);
         <span class="self">self</span>
     }
@@ -1105,7 +1100,7 @@
     <span class="doccomment">/// visitation timestamp.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, visit deadline is disabled.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_deadline</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">deadline</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_deadline</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">deadline</span>: <span class="ident">Duration</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">visit_deadline</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">deadline</span>);
         <span class="self">self</span>
     }
@@ -1118,13 +1113,13 @@
     <span class="doccomment">/// into the issued cookies, making it immutable to users.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, login deadline is disabled.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">login_deadline</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">deadline</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CookieIdentityPolicy</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">login_deadline</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">deadline</span>: <span class="ident">Duration</span>) -&gt; <span class="ident">CookieIdentityPolicy</span> {
         <span class="self">self</span>.<span class="ident">inner_mut</span>().<span class="ident">login_deadline</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">deadline</span>);
         <span class="self">self</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">CookieIdentityInner</span> {
-        <span class="ident">Rc::get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>).<span class="ident">unwrap</span>()
+    <span class="kw">fn</span> <span class="ident">inner_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">CookieIdentityInner</span> {
+        <span class="ident">Rc::get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="number">0</span>).<span class="ident">unwrap</span>()
     }
 }
 
@@ -1132,7 +1127,7 @@
     <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">Ready</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
     <span class="kw">type</span> <span class="ident">ResponseFuture</span> <span class="op">=</span> <span class="ident">Ready</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceRequest</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::Future</span> {
+    <span class="kw">fn</span> <span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceRequest</span>) -&gt; <span class="ident"><span class="self">Self</span>::Future</span> {
         <span class="ident">ready</span>(<span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">req</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">CookieValue</span> {
                 <span class="ident">identity</span>,
@@ -1153,8 +1148,8 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
         <span class="ident">changed</span>: <span class="ident">bool</span>,
-        <span class="ident">res</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span><span class="ident">::ResponseFuture</span> {
+        <span class="ident">res</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="ident"><span class="self">Self</span>::ResponseFuture</span> {
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">changed</span> {
             <span class="kw">let</span> <span class="ident">login_timestamp</span> <span class="op">=</span> <span class="ident">SystemTime::now</span>();
 
@@ -1214,7 +1209,7 @@
         <span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
         <span class="ident">login_timestamp</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SystemTime</span><span class="op">&gt;</span>,
         <span class="ident">visit_timestamp</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SystemTime</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+    ) -&gt; <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">jar</span> <span class="op">=</span> <span class="ident">CookieJar::new</span>();
         <span class="kw">let</span> <span class="ident">key</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">COOKIE_KEY_MASTER</span>
             .<span class="ident">iter</span>()
@@ -1222,7 +1217,7 @@
             .<span class="ident">copied</span>()
             .<span class="ident">collect</span>();
 
-        <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>)).<span class="ident">add</span>(<span class="ident">Cookie::new</span>(
+        <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>)).<span class="ident">add</span>(<span class="ident">Cookie::new</span>(
             <span class="ident">COOKIE_NAME</span>,
             <span class="ident">serde_json::to_string</span>(<span class="kw-2">&amp;</span><span class="ident">CookieValue</span> {
                 <span class="ident">identity</span>: <span class="ident">identity</span>.<span class="ident">to_string</span>(),
@@ -1236,7 +1231,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">assert_login_cookie</span>(
-        <span class="ident">response</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceResponse</span>,
+        <span class="ident">response</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceResponse</span>,
         <span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">login_timestamp</span>: <span class="ident">LoginTimestampCheck</span>,
         <span class="ident">visit_timestamp</span>: <span class="ident">VisitTimeStampCheck</span>,
@@ -1265,21 +1260,19 @@
         <span class="kw">let</span> <span class="ident">t30sec_ago</span> <span class="op">=</span> <span class="ident">now</span> <span class="op">-</span> <span class="ident">Duration::seconds</span>(<span class="number">30</span>);
 
         <span class="kw">match</span> <span class="ident">login_timestamp</span> {
-            <span class="ident">LoginTimestampCheck::NoTimestamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert_eq!</span>(<span class="ident">cv</span>.<span class="ident">login_timestamp</span>, <span class="prelude-val">None</span>),
-            <span class="ident">LoginTimestampCheck::NewTimestamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert!</span>(
-                <span class="ident">t30sec_ago</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">cv</span>.<span class="ident">login_timestamp</span>.<span class="ident">unwrap</span>()
-                    <span class="op">&amp;&amp;</span> <span class="ident">cv</span>.<span class="ident">login_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">now</span>
+            <span class="ident">LoginTimestampCheck::NoTimestamp</span> =&gt; <span class="macro">assert_eq!</span>(<span class="ident">cv</span>.<span class="ident">login_timestamp</span>, <span class="prelude-val">None</span>),
+            <span class="ident">LoginTimestampCheck::NewTimestamp</span> =&gt; <span class="macro">assert!</span>(
+                <span class="ident">t30sec_ago</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">cv</span>.<span class="ident">login_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&amp;&amp;</span> <span class="ident">cv</span>.<span class="ident">login_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">now</span>
             ),
-            <span class="ident">LoginTimestampCheck::OldTimestamp</span>(<span class="ident">old_timestamp</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">LoginTimestampCheck::OldTimestamp</span>(<span class="ident">old_timestamp</span>) =&gt; {
                 <span class="macro">assert_eq!</span>(<span class="ident">cv</span>.<span class="ident">login_timestamp</span>, <span class="prelude-val">Some</span>(<span class="ident">old_timestamp</span>))
             }
         }
 
         <span class="kw">match</span> <span class="ident">visit_timestamp</span> {
-            <span class="ident">VisitTimeStampCheck::NoTimestamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert_eq!</span>(<span class="ident">cv</span>.<span class="ident">visit_timestamp</span>, <span class="prelude-val">None</span>),
-            <span class="ident">VisitTimeStampCheck::NewTimestamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert!</span>(
-                <span class="ident">t30sec_ago</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">cv</span>.<span class="ident">visit_timestamp</span>.<span class="ident">unwrap</span>()
-                    <span class="op">&amp;&amp;</span> <span class="ident">cv</span>.<span class="ident">visit_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">now</span>
+            <span class="ident">VisitTimeStampCheck::NoTimestamp</span> =&gt; <span class="macro">assert_eq!</span>(<span class="ident">cv</span>.<span class="ident">visit_timestamp</span>, <span class="prelude-val">None</span>),
+            <span class="ident">VisitTimeStampCheck::NewTimestamp</span> =&gt; <span class="macro">assert!</span>(
+                <span class="ident">t30sec_ago</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">cv</span>.<span class="ident">visit_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&amp;&amp;</span> <span class="ident">cv</span>.<span class="ident">visit_timestamp</span>.<span class="ident">unwrap</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">now</span>
             ),
         }
     }
@@ -1316,12 +1309,10 @@
                 })),
         )
         .<span class="kw">await</span>;
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/index&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/index&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
 
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
         <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">response</span>().<span class="ident">cookies</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
 
@@ -1366,8 +1357,7 @@
         )
         .<span class="kw">await</span>;
 
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
         <span class="macro">assert!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header::SET_COOKIE</span>));
         <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">response</span>().<span class="ident">cookies</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
@@ -1393,8 +1383,7 @@
         )
         .<span class="kw">await</span>;
 
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
 
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
         <span class="macro">assert!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header::SET_COOKIE</span>));
@@ -1404,9 +1393,9 @@
         <span class="macro">assert_eq!</span>(<span class="ident">SameSite::None</span>, <span class="ident">c</span>.<span class="ident">same_site</span>().<span class="ident">unwrap</span>());
     }
 
-    <span class="kw">fn</span> <span class="ident">legacy_login_cookie</span>(<span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">legacy_login_cookie</span>(<span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) -&gt; <span class="ident">Cookie</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">jar</span> <span class="op">=</span> <span class="ident">CookieJar::new</span>();
-        <span class="ident">jar</span>.<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">COOKIE_KEY_MASTER</span>))
+        <span class="ident">jar</span>.<span class="ident">private_mut</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">COOKIE_KEY_MASTER</span>))
             .<span class="ident">add</span>(<span class="ident">Cookie::new</span>(<span class="ident">COOKIE_NAME</span>, <span class="ident">identity</span>));
         <span class="ident">jar</span>.<span class="ident">get</span>(<span class="ident">COOKIE_NAME</span>).<span class="ident">unwrap</span>().<span class="ident">clone</span>()
     }
@@ -1417,19 +1406,19 @@
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">borrow</span>()), <span class="ident">identity</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">assert_legacy_login_cookie</span>(<span class="ident">response</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceResponse</span>, <span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+    <span class="kw">fn</span> <span class="ident">assert_legacy_login_cookie</span>(<span class="ident">response</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceResponse</span>, <span class="ident">identity</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cookies</span> <span class="op">=</span> <span class="ident">CookieJar::new</span>();
         <span class="kw">for</span> <span class="ident">cookie</span> <span class="kw">in</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get_all</span>(<span class="ident">header::SET_COOKIE</span>) {
             <span class="ident">cookies</span>.<span class="ident">add</span>(<span class="ident">Cookie::parse</span>(<span class="ident">cookie</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>()).<span class="ident">unwrap</span>());
         }
         <span class="kw">let</span> <span class="ident">cookie</span> <span class="op">=</span> <span class="ident">cookies</span>
-            .<span class="ident">private</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">COOKIE_KEY_MASTER</span>))
+            .<span class="ident">private_mut</span>(<span class="kw-2">&amp;</span><span class="ident">Key::derive_from</span>(<span class="kw-2">&amp;</span><span class="ident">COOKIE_KEY_MASTER</span>))
             .<span class="ident">get</span>(<span class="ident">COOKIE_NAME</span>)
             .<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">cookie</span>.<span class="ident">value</span>(), <span class="ident">identity</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">assert_no_login_cookie</span>(<span class="ident">response</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ServiceResponse</span>) {
+    <span class="kw">fn</span> <span class="ident">assert_no_login_cookie</span>(<span class="ident">response</span>: <span class="kw-2">&amp;mut</span> <span class="ident">ServiceResponse</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cookies</span> <span class="op">=</span> <span class="ident">CookieJar::new</span>();
         <span class="kw">for</span> <span class="ident">cookie</span> <span class="kw">in</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get_all</span>(<span class="ident">header::SET_COOKIE</span>) {
             <span class="ident">cookies</span>.<span class="ident">add</span>(<span class="ident">Cookie::parse</span>(<span class="ident">cookie</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_string</span>()).<span class="ident">unwrap</span>());
@@ -1456,8 +1445,7 @@
                 })),
         )
         .<span class="kw">await</span>;
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/login&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
         <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode::OK</span>);
         <span class="macro">assert!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header::SET_COOKIE</span>));
         <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">response</span>().<span class="ident">cookies</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
@@ -1467,9 +1455,8 @@
     <span class="attribute">#[<span class="ident">actix_rt::test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_identity_legacy_cookie_is_set</span>() {
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">create_identity_server</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span>).<span class="kw">await</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
-        <span class="ident">assert_legacy_login_cookie</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>, <span class="ident">COOKIE_LOGIN</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test::call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">TestRequest::with_uri</span>(<span class="string">&quot;/&quot;</span>).<span class="ident">to_request</span>()).<span class="kw">await</span>;
+        <span class="ident">assert_legacy_login_cookie</span>(<span class="kw-2">&amp;mut</span> <span class="ident">resp</span>, <span class="ident">COOKIE_LOGIN</span>);
         <span class="ident">assert_logged_in</span>(<span class="ident">resp</span>, <span class="prelude-val">None</span>).<span class="kw">await</span>;
     }
 
@@ -1484,7 +1471,7 @@
                 .<span class="ident">to_request</span>(),
         )
         .<span class="kw">await</span>;
-        <span class="ident">assert_no_login_cookie</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>);
+        <span class="ident">assert_no_login_cookie</span>(<span class="kw-2">&amp;mut</span> <span class="ident">resp</span>);
         <span class="ident">assert_logged_in</span>(<span class="ident">resp</span>, <span class="prelude-val">Some</span>(<span class="ident">COOKIE_LOGIN</span>)).<span class="kw">await</span>;
     }
 
@@ -1500,7 +1487,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NoTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NewTimestamp</span>,
@@ -1520,7 +1507,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NewTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NoTimestamp</span>,
@@ -1540,7 +1527,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NewTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NoTimestamp</span>,
@@ -1560,7 +1547,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NoTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NewTimestamp</span>,
@@ -1584,7 +1571,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NewTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NoTimestamp</span>,
@@ -1608,7 +1595,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::NoTimestamp</span>,
             <span class="ident">VisitTimeStampCheck::NewTimestamp</span>,
@@ -1627,7 +1614,7 @@
                 .<span class="ident">to_request</span>(),
         )
         .<span class="kw">await</span>;
-        <span class="ident">assert_no_login_cookie</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>);
+        <span class="ident">assert_no_login_cookie</span>(<span class="kw-2">&amp;mut</span> <span class="ident">resp</span>);
         <span class="ident">assert_logged_in</span>(<span class="ident">resp</span>, <span class="prelude-val">Some</span>(<span class="ident">COOKIE_LOGIN</span>)).<span class="kw">await</span>;
     }
 
@@ -1648,7 +1635,7 @@
         )
         .<span class="kw">await</span>;
         <span class="ident">assert_login_cookie</span>(
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resp</span>,
+            <span class="kw-2">&amp;mut</span> <span class="ident">resp</span>,
             <span class="ident">COOKIE_LOGIN</span>,
             <span class="ident">LoginTimestampCheck::OldTimestamp</span>(<span class="ident">timestamp</span>),
             <span class="ident">VisitTimeStampCheck::NewTimestamp</span>,
@@ -1656,6 +1643,6 @@
         <span class="ident">assert_logged_in</span>(<span class="ident">resp</span>, <span class="prelude-val">Some</span>(<span class="ident">COOKIE_LOGIN</span>)).<span class="kw">await</span>;
     }
 }
-</pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_identity" data-search-js="../../search-index.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>
+</code></pre></div>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_identity" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.59.0-nightly (686e313a9 2021-11-27)" ></div>
+</body></html>
