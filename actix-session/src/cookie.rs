@@ -1,16 +1,17 @@
 //! Cookie based sessions. See docs for [`CookieSession`].
 
-use std::{collections::HashMap, error::Error as StdError, rc::Rc};
+use std::{collections::HashMap, rc::Rc};
 
+use actix_utils::future::{ok, Ready};
 use actix_web::{
-    body::{AnyBody, MessageBody},
+    body::{EitherBody, MessageBody},
     cookie::{Cookie, CookieJar, Key, SameSite},
     dev::{Service, ServiceRequest, ServiceResponse, Transform},
-    http::{header::SET_COOKIE, HeaderValue},
+    http::header::{HeaderValue, SET_COOKIE},
     Error, ResponseError,
 };
 use derive_more::Display;
-use futures_util::future::{ok, FutureExt as _, LocalBoxFuture, Ready};
+use futures_util::future::{FutureExt as _, LocalBoxFuture};
 use serde_json::error::Error as JsonError;
 use time::{Duration, OffsetDateTime};
 
@@ -126,7 +127,7 @@ impl CookieSessionInner {
         let mut cookie = Cookie::named(self.name.clone());
         cookie.set_path(self.path.clone());
         cookie.set_value("");
-        cookie.set_max_age(Duration::zero());
+        cookie.set_max_age(Duration::ZERO);
         cookie.set_expires(OffsetDateTime::now_utc() - Duration::days(365));
 
         let val = HeaderValue::from_str(&cookie.to_string())?;
@@ -300,9 +301,9 @@ where
     S::Future: 'static,
     S::Error: 'static,
     B: MessageBody + 'static,
-    B::Error: StdError,
+    B::Error: Into<Error>,
 {
-    type Response = ServiceResponse;
+    type Response = ServiceResponse<EitherBody<B>>;
     type Error = S::Error;
     type InitError = ();
     type Transform = CookieSessionMiddleware<S>;
@@ -328,9 +329,9 @@ where
     S::Future: 'static,
     S::Error: 'static,
     B: MessageBody + 'static,
-    B::Error: StdError,
+    B::Error: Into<Error>,
 {
-    type Response = ServiceResponse;
+    type Response = ServiceResponse<EitherBody<B>>;
     type Error = S::Error;
     type Future = LocalBoxFuture<'static, Result<Self::Response, Self::Error>>;
 
@@ -378,8 +379,8 @@ where
             };
 
             match result {
-                Ok(()) => Ok(res.map_body(|_, body| AnyBody::new_boxed(body))),
-                Err(error) => Ok(res.error_response(error)),
+                Ok(()) => Ok(res.map_into_left_body()),
+                Err(error) => Ok(res.error_response(error).map_into_right_body()),
             }
         }
         .boxed_local()
@@ -515,7 +516,7 @@ mod tests {
         let request = test::TestRequest::with_uri("/test/")
             .cookie(cookie)
             .to_request();
-        let body = test::read_response(&app, request).await;
+        let body = test::call_and_read_body(&app, request).await;
         assert_eq!(body, Bytes::from_static(b"counter: 100"));
     }
 

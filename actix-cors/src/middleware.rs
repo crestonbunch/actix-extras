@@ -1,16 +1,16 @@
-use std::{collections::HashSet, convert::TryInto, error::Error as StdError, rc::Rc};
+use std::{collections::HashSet, convert::TryInto, rc::Rc};
 
+use actix_utils::future::ok;
 use actix_web::{
-    body::{AnyBody, MessageBody},
+    body::{EitherBody, MessageBody},
     dev::{Service, ServiceRequest, ServiceResponse},
-    error::{Error, Result},
     http::{
         header::{self, HeaderValue},
         Method,
     },
-    HttpResponse,
+    Error, HttpResponse, Result,
 };
-use futures_util::future::{ok, Either, FutureExt as _, LocalBoxFuture, Ready, TryFutureExt as _};
+use futures_util::future::{FutureExt as _, LocalBoxFuture};
 use log::debug;
 
 use crate::{builder::intersperse_header_values, AllOrSome, Inner};
@@ -118,12 +118,16 @@ impl<S> CorsMiddleware<S> {
         if inner.vary_header {
             let value = match res.headers_mut().get(header::VARY) {
                 Some(hdr) => {
-                    let mut val: Vec<u8> = Vec::with_capacity(hdr.len() + 8);
+                    let mut val: Vec<u8> = Vec::with_capacity(hdr.len() + 71);
                     val.extend(hdr.as_bytes());
-                    val.extend(b", Origin");
+                    val.extend(
+                        b", Origin, Access-Control-Request-Method, Access-Control-Request-Headers",
+                    );
                     val.try_into().unwrap()
                 }
-                None => HeaderValue::from_static("Origin"),
+                None => HeaderValue::from_static(
+                    "Origin, Access-Control-Request-Method, Access-Control-Request-Headers",
+                ),
             };
 
             res.headers_mut().insert(header::VARY, value);
@@ -133,21 +137,17 @@ impl<S> CorsMiddleware<S> {
     }
 }
 
-type CorsMiddlewareServiceFuture = Either<
-    Ready<Result<ServiceResponse, Error>>,
-    LocalBoxFuture<'static, Result<ServiceResponse, Error>>,
->;
-
 impl<S, B> Service<ServiceRequest> for CorsMiddleware<S>
 where
     S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
+
     B: MessageBody + 'static,
-    B::Error: StdError,
+    B::Error: Into<Error>,
 {
-    type Response = ServiceResponse;
+    type Response = ServiceResponse<EitherBody<B>>;
     type Error = Error;
-    type Future = CorsMiddlewareServiceFuture;
+    type Future = LocalBoxFuture<'static, Result<ServiceResponse<EitherBody<B>>, Error>>;
 
     actix_service::forward_ready!(service);
 
@@ -155,7 +155,7 @@ where
         if self.inner.preflight && req.method() == Method::OPTIONS {
             let inner = Rc::clone(&self.inner);
             let res = Self::handle_preflight(&inner, req);
-            Either::Left(ok(res))
+            ok(res.map_into_right_body()).boxed_local()
         } else {
             let origin = req.headers().get(header::ORIGIN).cloned();
 
@@ -163,27 +163,24 @@ where
                 // Only check requests with a origin header.
                 if let Err(err) = self.inner.validate_origin(req.head()) {
                     debug!("origin validation failed; inner service is not called");
-                    return Either::Left(ok(req.error_response(err)));
+                    return ok(req.error_response(err).map_into_right_body()).boxed_local();
                 }
             }
 
             let inner = Rc::clone(&self.inner);
             let fut = self.service.call(req);
 
-            let res = async move {
+            async move {
                 let res = fut.await;
 
                 if origin.is_some() {
-                    let res = res?;
-                    Ok(Self::augment_response(&inner, res))
+                    Ok(Self::augment_response(&inner, res?))
                 } else {
-                    res
+                    res.map_err(Into::into)
                 }
+                .map(|res| res.map_into_left_body())
             }
-            .map_ok(|res| res.map_body(|_, body| AnyBody::new_boxed(body)))
-            .boxed_local();
-
-            Either::Right(res)
+            .boxed_local()
         }
     }
 }

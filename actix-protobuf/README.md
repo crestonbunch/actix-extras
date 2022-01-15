@@ -3,15 +3,15 @@
 > Protobuf support for Actix Web.
 
 [![crates.io](https://img.shields.io/crates/v/actix-protobuf?label=latest)](https://crates.io/crates/actix-protobuf)
-[![Documentation](https://docs.rs/actix-protobuf/badge.svg?version=0.7.0-beta.2)](https://docs.rs/actix-protobuf/0.7.0-beta.2)
+[![Documentation](https://docs.rs/actix-protobuf/badge.svg?version=0.7.0-beta.4)](https://docs.rs/actix-protobuf/0.7.0-beta.4)
 ![Apache 2.0 or MIT licensed](https://img.shields.io/crates/l/actix-protobuf)
-[![Dependency Status](https://deps.rs/crate/actix-protobuf/0.7.0-beta.2/status.svg)](https://deps.rs/crate/actix-protobuf/0.7.0-beta.2)
+[![Dependency Status](https://deps.rs/crate/actix-protobuf/0.7.0-beta.4/status.svg)](https://deps.rs/crate/actix-protobuf/0.7.0-beta.4)
 
 ## Documentation & Resources
 
 - [API Documentation](https://docs.rs/actix-protobuf)
 - [Example Project](https://github.com/actix/examples/tree/master/other/protobuf)
-- Minimum Supported Rust Version (MSRV): 1.52
+- Minimum Supported Rust Version (MSRV): 1.54
 
 ## Example
 
